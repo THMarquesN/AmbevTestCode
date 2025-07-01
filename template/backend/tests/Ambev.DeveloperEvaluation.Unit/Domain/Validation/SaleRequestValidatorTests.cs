@@ -5,10 +5,16 @@ using Xunit;
 
 namespace Ambev.DeveloperEvaluation.Unit.Domain.Validation
 {
-    public  class SaleRequestValidatorTests
+    /// <summary>
+    /// Unit tests for CreateSaleRequestValidator to validate rules and fields.
+    /// </summary>
+    public class SaleRequestValidatorTests
     {
         private readonly SaleValidator _validator = new();
 
+        /// <summary>
+        /// Ensures SaleNumber is required.
+        /// </summary>
         [Fact]
         public void Should_Have_Error_When_SaleNumber_Is_Empty()
         {
@@ -17,6 +23,9 @@ namespace Ambev.DeveloperEvaluation.Unit.Domain.Validation
             result.ShouldHaveValidationErrorFor(x => x.SaleNumber);
         }
 
+        /// <summary>
+        /// Ensures Customer is required.
+        /// </summary>
         [Fact]
         public void Should_Have_Error_When_Customer_Is_Empty()
         {
@@ -25,6 +34,9 @@ namespace Ambev.DeveloperEvaluation.Unit.Domain.Validation
             result.ShouldHaveValidationErrorFor(x => x.Customer);
         }
 
+        /// <summary>
+        /// Ensures Branch is required.
+        /// </summary>
         [Fact]
         public void Should_Have_Error_When_Branch_Is_Empty()
         {
@@ -33,6 +45,9 @@ namespace Ambev.DeveloperEvaluation.Unit.Domain.Validation
             result.ShouldHaveValidationErrorFor(x => x.Branch);
         }
 
+        /// <summary>
+        /// Validate if items is not empty.
+        /// </summary>
         [Fact]
         public void Should_Have_Error_When_Items_Are_Empty()
         {

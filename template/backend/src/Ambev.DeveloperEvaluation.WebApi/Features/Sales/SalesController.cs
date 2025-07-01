@@ -23,6 +23,11 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Creates a new sale.
+        /// </summary>
+        /// <param name="request">The sale creation request payload.</param>
+        /// <returns>A response with sale details and status.</returns>
         [HttpPost]
         [ProducesResponseType(typeof(ApiResponseWithData<SaleResponse>), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
@@ -45,6 +50,11 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales
             });
         }
 
+        /// <summary>
+        /// Returne a sale by its Id.
+        /// </summary>
+        /// <param name="id">The sale ID.</param>
+        /// <returns>The sale data or a not found message.</returns>
         [HttpGet("GetById/{id:guid}")]
         [ProducesResponseType(typeof(ApiResponseWithData<SaleResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
@@ -63,6 +73,10 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales
             });
         }
 
+        /// <summary>
+        /// Returns all sales.
+        /// </summary>
+        /// <returns>A list of all sales.</returns>
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -70,6 +84,11 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales
             return Ok(sales);
         }
 
+        /// <summary>
+        /// Deletes a sale by ID.
+        /// </summary>
+        /// <param name="id">The ID of the sale to delete.</param>
+        /// <returns>A confirmation message or not found response.</returns>
         [HttpDelete("{id:guid}")]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
@@ -85,11 +104,21 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales
             });
         }
 
+
+        /// <summary>
+        /// Returns all sales for a customer.
+        /// </summary>
+        /// <param name="customer">The customer's name.</param>
+        /// <returns>A list of sales associated with the customer.</returns>
         [HttpGet("GetByCustomer/{customer}")]
         public async Task<IActionResult> GetAllByCustomer(string customer)
         {
             var sales = await _repository.GetAllByCustomerAsync(customer);
-            return Ok(sales);
+            return Ok(new SaleResponse
+            {
+                Message = $"Found {sales.Count()} sales for '{customer}'.",
+                Sales = sales
+            });
         }
     }
 }
